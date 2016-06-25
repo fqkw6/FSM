@@ -62,13 +62,13 @@ public class SaveGameHolderAutoScroll : MonoBehaviour {
         }
     }
 
-    GameSaveItemScript GetSelectedGameSave()
+    GameListItemScript GetSelectedGameSave()
     {
         var selectedGameSaveItem = EventSystem.current.currentSelectedGameObject;
 
         if (selectedGameSaveItem != null)
         {
-            var gameSaveItemScript = selectedGameSaveItem.GetComponent<GameSaveItemScript>();
+            var gameSaveItemScript = selectedGameSaveItem.GetComponent<GameListItemScript>();
 
             if (gameSaveItemScript != null)
             {
@@ -78,7 +78,7 @@ public class SaveGameHolderAutoScroll : MonoBehaviour {
 
         foreach (Transform child in gameObject.transform)
         {
-            var childGameSaveItemScript = child.GetComponent<GameSaveItemScript>();
+            var childGameSaveItemScript = child.GetComponent<GameListItemScript>();
 
             if (childGameSaveItemScript.IsSaveGameSelected)
             {

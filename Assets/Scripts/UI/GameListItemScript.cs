@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class GameSaveItemScript : MonoBehaviour, ISelectHandler
+public class GameListItemScript : MonoBehaviour, ISelectHandler
 {
     public Color NormalColor;
     public Color SelectedColor;
@@ -70,7 +70,7 @@ public class GameSaveItemScript : MonoBehaviour, ISelectHandler
 
     void DeselectSiblings()
     {
-        var saveGameSiblings = gameObject.transform.parent.GetComponentsInChildren<GameSaveItemScript>();
+        var saveGameSiblings = gameObject.transform.parent.GetComponentsInChildren<GameListItemScript>();
 
         foreach (var saveGameSibling in saveGameSiblings)
         {

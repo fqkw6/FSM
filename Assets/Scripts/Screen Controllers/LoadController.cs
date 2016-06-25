@@ -6,35 +6,61 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class LoadController : ScreenController
+public class LoadController : BaseSaveOrLoadController
 {
-    public Transform LoadGameListContent;
-    public GameObject LoadGameListItem;
-
-    private Dictionary<GameObject, GameData> _loadGameDictionary;
-
-    internal override void OnScreenAwake()
+    override public void OnScreenAwake()
     {
         PopulateLoadGameList();
     }
 
+    override public string GetTitleText()
+    {
+        return "Load";
+    }
+
+    public override void SaveOrLoad()
+    {
+        Load();
+    }
+
+    public void Load()
+    {
+        var saveGameListItem = GetSelectedSaveGameListItem();
+
+        if (saveGameListItem == null)
+        {
+            return;
+        }
+
+        var selectedGameData = GameDictionary[saveGameListItem];
+
+        if (!GameDataController.TryToLoad(selectedGameData))
+        {
+            return;
+        }
+
+        var sceneToLoad = GameDataController.GameData.LastLoadableScreen.GetSceneName();
+
+        SceneManager.LoadScene(sceneToLoad);
+    }
+
     void PopulateLoadGameList()
     {
-        _loadGameDictionary = new Dictionary<GameObject, GameData>();
+        GameDictionary = new Dictionary<GameObject, GameData>();
 
-        var gameDataList = _gameDataController.GetAllSavedGames();
+        var gameDataList = GameDataController.GetAllSavedGames();
 
         foreach (var gameData in gameDataList)
         {
             var saveGameItem = CreateLoadGameItem(gameData.SaveGameName, gameData.LastSaveDate);
 
-            _loadGameDictionary.Add(saveGameItem, gameData);
+            GameDictionary.Add(saveGameItem, gameData);
         }
     }
 
     GameObject CreateLoadGameItem(string gameSaveName, DateTime? lastSavedDate)
     {
-        var newSaveGameListItem = Instantiate(LoadGameListItem);
+        var newSaveGameListItem = Instantiate(GameListItem);
 
         var gameSaveNameText = newSaveGameListItem.transform.Find("Game Save Name Text").GetComponent<Text>();
         var lastSavedText = newSaveGameListItem.transform.Find("Last Saved Text").GetComponent<Text>();
@@ -50,44 +76,23 @@ public class LoadController : ScreenController
             lastSavedText.text = lastSavedDate.ToString();
         }
 
-        newSaveGameListItem.GetComponent<GameSaveItemScript>().LoadScreenController = this;
+        newSaveGameListItem.GetComponent<GameListItemScript>().LoadScreenController = this;
 
-        newSaveGameListItem.transform.SetParent(LoadGameListContent, false);
+        newSaveGameListItem.transform.SetParent(GameListContent, false);
 
         return newSaveGameListItem;
     }
 
-    public void Load()
-    {
-        var saveGameListItem = GetSelectedSaveGameListItem();
-
-        if (saveGameListItem == null)
-        {
-            return;
-        }
-
-        var selectedGameData = _loadGameDictionary[saveGameListItem];
-
-        if (!_gameDataController.TryToLoad(selectedGameData))
-        {
-            return;
-        }
-
-        var sceneToLoad = _gameDataController.GameData.LastLoadableScreen.GetSceneName();
-
-        SceneManager.LoadScene(sceneToLoad);
-    }
-
     private GameObject GetSelectedSaveGameListItem()
     {
-        if (LoadGameListContent == null)
+        if (GameListContent == null)
         {
             throw new NullReferenceException("SaveGameListContent");
         }
 
-        foreach (Transform loadGameListItem in LoadGameListContent)
+        foreach (Transform loadGameListItem in GameListContent)
         {
-            var gameLoadItemScript = loadGameListItem.GetComponent<GameSaveItemScript>();
+            var gameLoadItemScript = loadGameListItem.GetComponent<GameListItemScript>();
 
             if (gameLoadItemScript.IsSaveGameSelected)
             {
@@ -98,10 +103,5 @@ public class LoadController : ScreenController
         }
 
         return null;
-    }
-
-    public void ReturnToPreviousScreen()
-    {
-        _gameDataController.GoToPreviousScreen();
     }
 }

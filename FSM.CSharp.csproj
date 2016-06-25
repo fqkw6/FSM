@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\GameData\PlayerStatsGameData.cs" />
     <Compile Include="Assets\Scripts\GameData\WorldGameData.cs" />
     <Compile Include="Assets\Scripts\GameData\_other.cs" />
+    <Compile Include="Assets\Scripts\Screen Controllers\BaseSaveOrLoadController.cs" />
     <Compile Include="Assets\Scripts\Screen Controllers\InsideLocationController.cs" />
     <Compile Include="Assets\Scripts\Screen Controllers\LoadController.cs" />
     <Compile Include="Assets\Scripts\Screen Controllers\MapController.cs" />
@@ -81,9 +82,10 @@
     <Compile Include="Assets\Scripts\Screen Controllers\PURGE LATER\InnScreenController.cs" />
     <Compile Include="Assets\Scripts\Screen Controllers\PURGE LATER\SlaveHouseScreenController.cs" />
     <Compile Include="Assets\Scripts\Screen Controllers\SaveController.cs" />
+    <Compile Include="Assets\Scripts\Screen Controllers\SaveLoadController.cs" />
     <Compile Include="Assets\Scripts\Screen Controllers\ScreenController.cs" />
     <Compile Include="Assets\Scripts\Screen Controllers\TitleController.cs" />
-    <Compile Include="Assets\Scripts\UI\GameSaveItemScript.cs" />
+    <Compile Include="Assets\Scripts\UI\GameListItemScript.cs" />
     <Compile Include="Assets\Scripts\UI\SaveGameHolderAutoScroll.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

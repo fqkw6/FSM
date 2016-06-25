@@ -4,6 +4,7 @@ using System;
 
 public enum Screen
 {
+    SetInCode,
     Title,
     NewGame,
     Save,
@@ -25,8 +26,8 @@ public static class ScreenExtensions
             case Screen.NewGame:
                 return "scene_new_game";
             case Screen.Save:
-                return "scene_save";
             case Screen.Load:
+                //return "scene_save_and_load";
                 return "scene_load";
             case Screen.Menu:
                 return "scene_menu";
@@ -36,6 +37,8 @@ public static class ScreenExtensions
                 return "scene_map";
             case Screen.InsideLocation:
                 return "scene_inside_location";
+            case Screen.SetInCode:
+                throw new Exception("Screen is SetInCode, but hasn't been setup yet.");
             default:
                 throw new Exception("Screen not setup for GetScreenName");
         }

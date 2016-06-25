@@ -5,18 +5,45 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
-public class SaveController : ScreenController
+public class SaveController : BaseSaveOrLoadController
 {
-    public Transform SaveGameListContent;
-    public GameObject SaveGameListItem;
-
-    private Dictionary<GameObject, GameData> _saveGameDictionary;
-
     private const string NewGameName = "New Save Game";
 
-    internal override void OnScreenAwake()
+    override public void OnScreenAwake()
     {
         PopulateSaveGameList();
+    }
+
+    override public string GetTitleText()
+    {
+        return "Save";
+    }
+
+    public override void SaveOrLoad()
+    {
+        Save();
+    }
+
+    public void Save()
+    {
+        var saveGameListItem = GetSelectedSaveGameListItem();
+
+        if (saveGameListItem == null)
+        {
+            return;
+        }
+
+        var selectedGameData = GameDictionary[saveGameListItem];
+
+        Debug.Log("Get unique game save name from user");
+        var uniqueSaveGameNameFromUser = "First Game";
+
+        if (!GameDataController.TryToSave(uniqueSaveGameNameFromUser, selectedGameData))
+        {
+            return;
+        }
+
+        RefreshSaveGameList();
     }
 
     void RefreshSaveGameList()
@@ -27,25 +54,25 @@ public class SaveController : ScreenController
 
     void PopulateSaveGameList()
     {
-        _saveGameDictionary = new Dictionary<GameObject, GameData>();
+        GameDictionary = new Dictionary<GameObject, GameData>();
 
-        var gameDataList = _gameDataController.GetAllSavedGames();
+        var gameDataList = GameDataController.GetAllSavedGames();
 
         var newGameData = new GameData();
         var newSaveGameItem = CreateSaveGameItem(NewGameName, null);
-        _saveGameDictionary.Add(newSaveGameItem, newGameData);
+        GameDictionary.Add(newSaveGameItem, newGameData);
 
         foreach (var gameData in gameDataList)
         {
             var saveGameItem = CreateSaveGameItem(gameData.SaveGameName, gameData.LastSaveDate);
 
-            _saveGameDictionary.Add(saveGameItem, gameData);
+            GameDictionary.Add(saveGameItem, gameData);
         }
     }
 
     GameObject CreateSaveGameItem(string gameSaveName, DateTime? lastSavedDate)
     {
-        var newSaveGameListItem = Instantiate(SaveGameListItem);
+        var newSaveGameListItem = Instantiate(GameListItem);
 
         var gameSaveNameText = newSaveGameListItem.transform.Find("Game Save Name Text").GetComponent<Text>();
         var lastSavedText = newSaveGameListItem.transform.Find("Last Saved Text").GetComponent<Text>();
@@ -61,53 +88,33 @@ public class SaveController : ScreenController
             lastSavedText.text = lastSavedDate.ToString();
         }
 
-        newSaveGameListItem.GetComponent<GameSaveItemScript>().SaveScreenController = this;
+        newSaveGameListItem.GetComponent<GameListItemScript>().SaveScreenController = this;
 
-        newSaveGameListItem.transform.SetParent(SaveGameListContent, false);
+        newSaveGameListItem.transform.SetParent(GameListContent, false);
 
         return newSaveGameListItem;
     }
 
     void ClearSaveGameItems()
     {
-        foreach (Transform child in SaveGameListContent)
+        foreach (Transform child in GameListContent)
         {
             Destroy(child.gameObject);
         }
     }
 
-    public void Save()
-    {
-        var saveGameListItem = GetSelectedSaveGameListItem();
-
-        if (saveGameListItem == null)
-        {
-            return;
-        }
-
-        var selectedGameData = _saveGameDictionary[saveGameListItem];
-
-        Debug.Log("Get unique game save name from user");
-        var uniqueSaveGameNameFromUser = "First Game";
-
-        if (!_gameDataController.TryToSave(uniqueSaveGameNameFromUser, selectedGameData))
-        {
-            return;
-        }
-
-        RefreshSaveGameList();
-    }
+    
 
     private GameObject GetSelectedSaveGameListItem()
     {
-        if (SaveGameListContent == null)
+        if (GameListContent == null)
         {
             throw new NullReferenceException("SaveGameListContent");
         }
 
-        foreach (Transform saveGameListItem in SaveGameListContent)
+        foreach (Transform saveGameListItem in GameListContent)
         {
-            var gameSaveItemScript = saveGameListItem.GetComponent<GameSaveItemScript>();
+            var gameSaveItemScript = saveGameListItem.GetComponent<GameListItemScript>();
 
             if (gameSaveItemScript.IsSaveGameSelected)
             {
@@ -118,11 +125,5 @@ public class SaveController : ScreenController
         }
 
         return null;
-    }
-
-
-    public void ReturnToMenu()
-    {
-        _gameDataController.GoToScreen(Screen.Menu);
     }
 }
