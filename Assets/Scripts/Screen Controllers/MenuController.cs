@@ -26,7 +26,7 @@ public class MenuController : ScreenController
 
     public void ReturnToGameScreen()
     {
-        _gameDataController.GoToScreen(Screen.Map);
+        _gameDataController.GoToCurrentLoadableScreen();
     }
 
     internal override void OnScreenAwake()

@@ -65,4 +65,13 @@ public class SaveLoadController : ScreenController
         _saveOrLoadController.SaveOrLoad();
     }
 
+    public void Delete()
+    {
+        _saveOrLoadController.Delete();
+    }
+
+    public void ReturnToPriorScreen()
+    {
+        _gameDataController.GoToPreviousScreen();
+    }
 }

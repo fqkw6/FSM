@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Enums\Class.cs" />
+    <Compile Include="Assets\Scripts\Enums\DialogResult.cs" />
     <Compile Include="Assets\Scripts\Enums\Location.cs" />
     <Compile Include="Assets\Scripts\Enums\Screen.cs" />
     <Compile Include="Assets\Scripts\Enums\Sex.cs" />
@@ -87,6 +88,10 @@
     <Compile Include="Assets\Scripts\Screen Controllers\TitleController.cs" />
     <Compile Include="Assets\Scripts\UI\GameListItemScript.cs" />
     <Compile Include="Assets\Scripts\UI\SaveGameHolderAutoScroll.cs" />
+    <Compile Include="Assets\Scripts\UI\UserPromptForConfirmationController.cs" />
+    <Compile Include="Assets\Scripts\UI\UserPromptForConfirmationScript.cs" />
+    <Compile Include="Assets\Scripts\UI\UserPromptForStringController.cs" />
+    <Compile Include="Assets\Scripts\UI\UserPromptForStringScript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

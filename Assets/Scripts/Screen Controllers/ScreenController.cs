@@ -22,6 +22,12 @@ public abstract class ScreenController : MonoBehaviour {
         if (_gameDataController == null)
         {
             _gameDataController = GameObject.Find("GameDataController").GetComponent<GameDataController>();
+
+            if (_gameDataController.CurrentScreen == Screen.None)
+            {
+                _gameDataController.CurrentScreen = Screen;
+                _gameDataController.CurrentLocation = Location;
+            }
         }
     }
 

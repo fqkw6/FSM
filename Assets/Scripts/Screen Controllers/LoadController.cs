@@ -8,11 +8,6 @@ using UnityEngine.EventSystems;
 
 public class LoadController : BaseSaveOrLoadController
 {
-    override public void OnScreenAwake()
-    {
-        PopulateLoadGameList();
-    }
-
     override public string GetTitleText()
     {
         return "Load";
@@ -44,7 +39,7 @@ public class LoadController : BaseSaveOrLoadController
         SceneManager.LoadScene(sceneToLoad);
     }
 
-    void PopulateLoadGameList()
+    protected override void PopulateGameList()
     {
         GameDictionary = new Dictionary<GameObject, GameData>();
 
@@ -81,27 +76,5 @@ public class LoadController : BaseSaveOrLoadController
         newSaveGameListItem.transform.SetParent(GameListContent, false);
 
         return newSaveGameListItem;
-    }
-
-    private GameObject GetSelectedSaveGameListItem()
-    {
-        if (GameListContent == null)
-        {
-            throw new NullReferenceException("SaveGameListContent");
-        }
-
-        foreach (Transform loadGameListItem in GameListContent)
-        {
-            var gameLoadItemScript = loadGameListItem.GetComponent<GameListItemScript>();
-
-            if (gameLoadItemScript.IsSaveGameSelected)
-            {
-                EventSystem.current.SetSelectedGameObject(gameLoadItemScript.gameObject);
-
-                return loadGameListItem.gameObject;
-            }
-        }
-
-        return null;
     }
 }

@@ -9,11 +9,6 @@ public class SaveController : BaseSaveOrLoadController
 {
     private const string NewGameName = "New Save Game";
 
-    override public void OnScreenAwake()
-    {
-        PopulateSaveGameList();
-    }
-
     override public string GetTitleText()
     {
         return "Save";
@@ -33,26 +28,33 @@ public class SaveController : BaseSaveOrLoadController
             return;
         }
 
-        var selectedGameData = GameDictionary[saveGameListItem];
+        UserPromptForStringController.PromptUserForString("Save Game Name", WhenStringPromptButtonIsClicked);
+    }
 
-        Debug.Log("Get unique game save name from user");
-        var uniqueSaveGameNameFromUser = "First Game";
-
-        if (!GameDataController.TryToSave(uniqueSaveGameNameFromUser, selectedGameData))
+    void WhenStringPromptButtonIsClicked(DialogResult dialogResult, string saveGameNameFromUser)
+    {
+        if (dialogResult != DialogResult.Ok)
         {
             return;
         }
 
+        Debug.Log("Game Name = " + saveGameNameFromUser);
+
+        var saveGameListItem = GetSelectedSaveGameListItem();
+
+        if (saveGameListItem == null)
+        {
+            return;
+        }
+
+        var selectedGameData = GameDictionary[saveGameListItem];
+
+        GameDataController.TryToSave(saveGameNameFromUser, selectedGameData);
+
         RefreshSaveGameList();
     }
 
-    void RefreshSaveGameList()
-    {
-        ClearSaveGameItems();
-        PopulateSaveGameList();
-    }
-
-    void PopulateSaveGameList()
+    protected override void PopulateGameList()
     {
         GameDictionary = new Dictionary<GameObject, GameData>();
 
@@ -95,35 +97,5 @@ public class SaveController : BaseSaveOrLoadController
         return newSaveGameListItem;
     }
 
-    void ClearSaveGameItems()
-    {
-        foreach (Transform child in GameListContent)
-        {
-            Destroy(child.gameObject);
-        }
-    }
-
     
-
-    private GameObject GetSelectedSaveGameListItem()
-    {
-        if (GameListContent == null)
-        {
-            throw new NullReferenceException("SaveGameListContent");
-        }
-
-        foreach (Transform saveGameListItem in GameListContent)
-        {
-            var gameSaveItemScript = saveGameListItem.GetComponent<GameListItemScript>();
-
-            if (gameSaveItemScript.IsSaveGameSelected)
-            {
-                EventSystem.current.SetSelectedGameObject(gameSaveItemScript.gameObject);
-
-                return saveGameListItem.gameObject;
-            }
-        }
-
-        return null;
-    }
 }

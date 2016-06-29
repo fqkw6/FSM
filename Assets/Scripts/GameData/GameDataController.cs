@@ -11,10 +11,10 @@ public class GameDataController : MonoBehaviour
     private static GameDataController _gameDataController;
 
     public GameData GameData;
-    public Location CurrentLocation;
-    public Location LastLocation;
     public Screen CurrentScreen;
     public Screen LastScreen;
+    public Location CurrentLocation;
+    public Location LastLocation;
 
     private const string FileNameExtension = ".dat";
     private const string SaveGameSubdirectoryName = "SaveGames";
@@ -225,6 +225,20 @@ public class GameDataController : MonoBehaviour
 
     public void GoToScreen(Screen newScreen, Location newLocation = Location.None)
     {
+        RememberScreenAndLocation(newScreen, newLocation);
+
+        try
+        {
+            SceneManager.LoadScene(newScreen.GetSceneName());
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Failed to GoToScreen on " + newScreen, e);
+        }
+    }
+
+    private void RememberScreenAndLocation(Screen newScreen, Location newLocation)
+    {
         LastScreen = CurrentScreen;
         LastLocation = CurrentLocation;
 
@@ -233,15 +247,21 @@ public class GameDataController : MonoBehaviour
 
         if (newScreen.CanBeLoadedTo())
         {
-            GameData.LastLoadableScreen = newScreen;
-            GameData.LastLoadableLocation = newLocation;
-        }
+            GameData.LastLoadableScreen = GameData.CurrentLoadableScreen;
+            GameData.LastLoadableLocation = GameData.CurrentLoadableLocation;
 
-        SceneManager.LoadScene(newScreen.GetSceneName());
+            GameData.CurrentLoadableScreen = newScreen;
+            GameData.CurrentLoadableLocation = newLocation;
+        }
     }
 
     public void GoToPreviousScreen()
     {
         GoToScreen(LastScreen, LastLocation);
+    }
+
+    public void GoToCurrentLoadableScreen()
+    {
+        GoToScreen(GameData.CurrentLoadableScreen, GameData.CurrentLoadableLocation);
     }
 }
