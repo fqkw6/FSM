@@ -17,11 +17,12 @@ public static class UserPromptForStringController {
         _userPromptForStringScript.HideAndClear();
     }
 
-    internal static void PromptUserForString(string promptTitleText, Action<DialogResult, string> whenButtonIsClicked)
+    internal static void PromptUserForString(string promptTitleText, string prepopulateText, Action<DialogResult, string> whenButtonIsClicked)
     {
         AddEventHandlers(whenButtonIsClicked);
 
         _userPromptForStringScript.PromptTitleText.text = promptTitleText;
+        _userPromptForStringScript.PromptInputField.text = prepopulateText;
         _userPromptForStringScript.ShowPrompt();
     }
 

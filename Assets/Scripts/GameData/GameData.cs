@@ -38,17 +38,28 @@ public class GameData : IComparable<GameData>
 
         IsHardcoreModeEnabled = otherGameData.IsHardcoreModeEnabled;
 
+        CurrentLoadableScreen = otherGameData.CurrentLoadableScreen;
+        LastLoadableScreen = otherGameData.LastLoadableScreen;
+        CurrentLoadableLocation = otherGameData.CurrentLoadableLocation;
+        LastLoadableLocation = otherGameData.LastLoadableLocation;
+
         PlayerGameData.CopyFrom(otherGameData.PlayerGameData);
         WorldGameData.CopyFrom(otherGameData.WorldGameData);
     }
 
     int IComparable<GameData>.CompareTo(GameData other)
     {
+        // Temp save files will be sorted to the top
         if (LastSaveDate == default(DateTime) && other.LastSaveDate != default(DateTime))
         {
             return 1;
         }
 
         return -LastSaveDate.CompareTo(other.LastSaveDate);
+    }
+
+    public bool HasNeverBeenSaved()
+    {
+        return (SaveGameFilePath == null);
     }
 }

@@ -8,8 +8,8 @@ public class GameListItemScript : MonoBehaviour, ISelectHandler
 {
     public Color NormalColor;
     public Color SelectedColor;
-    public SaveController SaveScreenController;
-    public LoadController LoadScreenController;
+    public BaseSaveOrLoadController SaveOrLoadController;
+    public GameData GameData;
 
     public bool IsSaveGameSelected;
 
@@ -36,14 +36,9 @@ public class GameListItemScript : MonoBehaviour, ISelectHandler
     {
         if ((Time.time - _doubleClickStart) < DoubleClickTime)
         {
-            if (SaveScreenController != null)
+            if (SaveOrLoadController != null)
             {
-                SaveScreenController.Save();
-            }
-
-            if (LoadScreenController != null)
-            {
-                LoadScreenController.Load();
+                SaveOrLoadController.SaveOrLoad();
             }
 
             _doubleClickStart = -1;

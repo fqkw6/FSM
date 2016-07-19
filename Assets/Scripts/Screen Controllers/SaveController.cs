@@ -28,7 +28,16 @@ public class SaveController : BaseSaveOrLoadController
             return;
         }
 
-        UserPromptForStringController.PromptUserForString("Save Game Name", WhenStringPromptButtonIsClicked);
+        var selectedGameData = GameDictionary[saveGameListItem];
+
+        string prepopulateSaveGameName = string.Empty;
+
+        if (!selectedGameData.HasNeverBeenSaved())
+        {
+            prepopulateSaveGameName = selectedGameData.SaveGameName;
+        }
+
+        UserPromptForStringController.PromptUserForString("Save Game Name", prepopulateSaveGameName, WhenStringPromptButtonIsClicked);
     }
 
     void WhenStringPromptButtonIsClicked(DialogResult dialogResult, string saveGameNameFromUser)
@@ -61,40 +70,15 @@ public class SaveController : BaseSaveOrLoadController
         var gameDataList = GameDataController.GetAllSavedGames();
 
         var newGameData = new GameData();
-        var newSaveGameItem = CreateSaveGameItem(NewGameName, null);
+        var newSaveGameItem = CreateGameItem(NewGameName, null);
         GameDictionary.Add(newSaveGameItem, newGameData);
 
         foreach (var gameData in gameDataList)
         {
-            var saveGameItem = CreateSaveGameItem(gameData.SaveGameName, gameData.LastSaveDate);
+            var saveGameItem = CreateGameItem(gameData.SaveGameName, gameData.LastSaveDate);
 
             GameDictionary.Add(saveGameItem, gameData);
         }
-    }
-
-    GameObject CreateSaveGameItem(string gameSaveName, DateTime? lastSavedDate)
-    {
-        var newSaveGameListItem = Instantiate(GameListItem);
-
-        var gameSaveNameText = newSaveGameListItem.transform.Find("Game Save Name Text").GetComponent<Text>();
-        var lastSavedText = newSaveGameListItem.transform.Find("Last Saved Text").GetComponent<Text>();
-
-        gameSaveNameText.text = gameSaveName;
-
-        if (lastSavedDate == null)
-        {
-            lastSavedText.text = "";
-        }
-        else
-        {
-            lastSavedText.text = lastSavedDate.ToString();
-        }
-
-        newSaveGameListItem.GetComponent<GameListItemScript>().SaveScreenController = this;
-
-        newSaveGameListItem.transform.SetParent(GameListContent, false);
-
-        return newSaveGameListItem;
     }
 
     

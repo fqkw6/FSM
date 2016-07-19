@@ -77,7 +77,9 @@ public class BaseSaveOrLoadController : ScriptableObject
 
         Debug.Log("Delete Save Game: " + saveFileName);
 
-        //GameDataController.TryToDelete(saveGameNameFromUser, selectedGameData);
+        var selectedGameData = GameDictionary[saveGameListItem];
+
+        GameDataController.TryToDelete(selectedGameData);
 
         RefreshSaveGameList();
     }
@@ -116,5 +118,30 @@ public class BaseSaveOrLoadController : ScriptableObject
         {
             Destroy(child.gameObject);
         }
+    }
+
+    protected GameObject CreateGameItem(string gameName, DateTime? lastSavedDate)
+    {
+        var newSaveGameListItem = Instantiate(GameListItem);
+
+        var gameSaveNameText = newSaveGameListItem.transform.Find("Game Save Name Text").GetComponent<Text>();
+        var lastSavedText = newSaveGameListItem.transform.Find("Last Saved Text").GetComponent<Text>();
+
+        gameSaveNameText.text = gameName;
+
+        if (lastSavedDate == null)
+        {
+            lastSavedText.text = "";
+        }
+        else
+        {
+            lastSavedText.text = lastSavedDate.ToString();
+        }
+
+        newSaveGameListItem.GetComponent<GameListItemScript>().SaveOrLoadController = this;
+
+        newSaveGameListItem.transform.SetParent(GameListContent, false);
+
+        return newSaveGameListItem;
     }
 }

@@ -34,7 +34,7 @@ public class LoadController : BaseSaveOrLoadController
             return;
         }
 
-        var sceneToLoad = GameDataController.GameData.LastLoadableScreen.GetSceneName();
+        var sceneToLoad = GameDataController.GameData.CurrentLoadableScreen.GetSceneName();
 
         SceneManager.LoadScene(sceneToLoad);
     }
@@ -47,34 +47,9 @@ public class LoadController : BaseSaveOrLoadController
 
         foreach (var gameData in gameDataList)
         {
-            var saveGameItem = CreateLoadGameItem(gameData.SaveGameName, gameData.LastSaveDate);
+            var saveGameItem = CreateGameItem(gameData.SaveGameName, gameData.LastSaveDate);
 
             GameDictionary.Add(saveGameItem, gameData);
         }
-    }
-
-    GameObject CreateLoadGameItem(string gameSaveName, DateTime? lastSavedDate)
-    {
-        var newSaveGameListItem = Instantiate(GameListItem);
-
-        var gameSaveNameText = newSaveGameListItem.transform.Find("Game Save Name Text").GetComponent<Text>();
-        var lastSavedText = newSaveGameListItem.transform.Find("Last Saved Text").GetComponent<Text>();
-
-        gameSaveNameText.text = gameSaveName;
-
-        if (lastSavedDate == null)
-        {
-            lastSavedText.text = "";
-        }
-        else
-        {
-            lastSavedText.text = lastSavedDate.ToString();
-        }
-
-        newSaveGameListItem.GetComponent<GameListItemScript>().LoadScreenController = this;
-
-        newSaveGameListItem.transform.SetParent(GameListContent, false);
-
-        return newSaveGameListItem;
     }
 }

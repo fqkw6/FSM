@@ -80,7 +80,7 @@ public class GameDataController : MonoBehaviour
         var oldSaveGameName = _gameDataController.GameData.SaveGameName;
         var oldSaveGameLastSaveDate = _gameDataController.GameData.LastSaveDate;
 
-        var isNewGame = (selectedGameData.SaveGameFilePath == null);
+        var isNewGame = selectedGameData.HasNeverBeenSaved();
         var isSavingUnderNewName = (saveGameNameFromUser != selectedGameData.SaveGameName);
         var needsNewSaveFile = (isNewGame || isSavingUnderNewName);
 
@@ -104,7 +104,7 @@ public class GameDataController : MonoBehaviour
 
         if (shouldDeleteOldFile)
         {
-            TryToDelete(oldSaveGameFilePath);
+            File.Delete(oldSaveGameFilePath);
         }
 
         //selectedGameData.CopyFrom(_gameDataController.GameData);
@@ -191,8 +191,10 @@ public class GameDataController : MonoBehaviour
         return saveDirectory;
     }
 
-    private void TryToDelete(string filePath)
+    public void TryToDelete(GameData selectedGameData)
     {
+        var filePath = selectedGameData.SaveGameFilePath;
+
         Debug.Log("DELETE FILE THAT ISN'T USED ANYMORE: " + filePath);
         File.Delete(filePath);
     }
