@@ -14,8 +14,8 @@ public class BaseSaveOrLoadController : ScriptableObject
 
     public virtual void OnScreenAwake()
     {
-        UserPromptForConfirmationController.Initialize();
-        UserPromptForStringController.Initialize();
+        //UserPromptForConfirmationController.Initialize();
+        //UserPromptForStringController.Initialize();
 
         PopulateGameList();
     }
@@ -56,7 +56,10 @@ public class BaseSaveOrLoadController : ScriptableObject
 
         var overwriteMessage = string.Format("Are you sure you want to delete \"{0}\"?", saveFileName);
 
-        UserPromptForConfirmationController.PromptUserForConfirmation("Delete Save?", overwriteMessage, WhenConfirmationPromptButtonIsClicked);
+        //UserPromptForConfirmationController.PromptUserForConfirmation("Delete Save?", overwriteMessage, WhenConfirmationPromptButtonIsClicked);
+
+        var dialogBoxController = CreateInstance("DialogBoxController") as DialogBoxController;
+        dialogBoxController.ShowDialogBoxAsType(DialogBoxType.PromptWithYesNo);
     }
 
     void WhenConfirmationPromptButtonIsClicked(DialogResult dialogResult)

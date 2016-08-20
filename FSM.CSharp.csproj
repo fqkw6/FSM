@@ -86,6 +86,9 @@
     <Compile Include="Assets\Scripts\Screen Controllers\SaveLoadController.cs" />
     <Compile Include="Assets\Scripts\Screen Controllers\ScreenController.cs" />
     <Compile Include="Assets\Scripts\Screen Controllers\TitleController.cs" />
+    <Compile Include="Assets\Scripts\UI\DialogBoxController.cs" />
+    <Compile Include="Assets\Scripts\UI\DialogBoxScript.cs" />
+    <Compile Include="Assets\Scripts\UI\FocusByDefaultScript.cs" />
     <Compile Include="Assets\Scripts\UI\GameListItemScript.cs" />
     <Compile Include="Assets\Scripts\UI\SaveGameHolderAutoScroll.cs" />
     <Compile Include="Assets\Scripts\UI\UserPromptForConfirmationController.cs" />

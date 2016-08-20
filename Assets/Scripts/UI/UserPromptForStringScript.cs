@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System;
 using UnityEngine.EventSystems;
 
 public delegate void ButtonEventHandler();
