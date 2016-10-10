@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class GameListItemScript : MonoBehaviour, ISelectHandler
+public class GameListItemScript : MonoBehaviour, ISelectHandler, IPointerUpHandler
 {
     public Color NormalColor;
     public Color SelectedColor;
@@ -24,15 +24,7 @@ public class GameListItemScript : MonoBehaviour, ISelectHandler
         SetSaveGameIsSelected(false);
     }
 
-    void Update()
-    {
-        if (Input.GetMouseButtonUp(0))
-        {
-            CheckDoubleClick();
-        }
-    }
-
-    void CheckDoubleClick()
+    public void OnPointerUp(PointerEventData eventData)
     {
         if ((Time.time - _doubleClickStart) < DoubleClickTime)
         {

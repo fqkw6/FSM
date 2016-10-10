@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public delegate void ButtonEventHandlerBLAH();
+public delegate void ButtonEventHandler();
 
 public class DialogBoxScript : MonoBehaviour {
 
@@ -15,10 +15,10 @@ public class DialogBoxScript : MonoBehaviour {
     public Button CancelButton;
     public Button MiddleOkButton;
 
-    public event ButtonEventHandlerBLAH SaveButtonEvents;
-    public event ButtonEventHandlerBLAH OkButtonEvents;
-    public event ButtonEventHandlerBLAH CancelButtonEvents;
-    public event ButtonEventHandlerBLAH MiddleOkButtonEvents;
+    public event ButtonEventHandler SaveButtonEvents;
+    public event ButtonEventHandler OkButtonEvents;
+    public event ButtonEventHandler CancelButtonEvents;
+    public event ButtonEventHandler MiddleOkButtonEvents;
 
     public void OnSaveButtonClicked()
     {
@@ -98,6 +98,10 @@ public class DialogBoxScript : MonoBehaviour {
         OkButton.gameObject.SetActive(false);
         CancelButton.gameObject.SetActive(false);
         MiddleOkButton.gameObject.SetActive(false);
+
+        TitleText.text = "";
+        MessageText.text = "";
+        PromptInputField.text = "";
 
         SetOkButtonText("OK");
         SetCancelButtonText("Cancel");

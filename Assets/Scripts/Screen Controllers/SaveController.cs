@@ -37,7 +37,8 @@ public class SaveController : BaseSaveOrLoadController
             prepopulateSaveGameName = selectedGameData.SaveGameName;
         }
 
-        //UserPromptForStringController.PromptUserForString("Save Game Name", prepopulateSaveGameName, WhenStringPromptButtonIsClicked);
+        var dialogBoxController = CreateInstance("DialogBoxController") as DialogBoxController;
+        dialogBoxController.PromptUserForString("Save Game Name", prepopulateSaveGameName, WhenStringPromptButtonIsClicked);
     }
 
     void WhenStringPromptButtonIsClicked(DialogResult dialogResult, string saveGameNameFromUser)

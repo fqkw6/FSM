@@ -25,6 +25,7 @@ public class SaveLoadController : ScreenController
 
     private void SetupController()
     {
+        Debug.Log("SaveLoadController.SetupController()");
         if (IsSaveGameScreen())
         {
             _saveOrLoadController = ScriptableObject.CreateInstance<SaveController>();
@@ -62,6 +63,7 @@ public class SaveLoadController : ScreenController
 
     public void SaveOrLoad()
     {
+        Debug.Log("SaveLoadController.SaveOrLoad()");
         _saveOrLoadController.SaveOrLoad();
     }
 
