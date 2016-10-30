@@ -11,6 +11,6 @@ public class SlaveHouseScreenController : ScreenController
 
     public void ReturnToMapScreen()
     {
-        _gameDataController.GoToScreen(Screen.Map);
+        _gameController.GoToPreviousScreen();
     }
 }

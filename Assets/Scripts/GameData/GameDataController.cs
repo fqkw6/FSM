@@ -11,10 +11,6 @@ public class GameDataController : MonoBehaviour
     private static GameDataController _gameDataController;
 
     public GameData GameData;
-    public Screen CurrentScreen;
-    public Screen LastScreen;
-    public Location CurrentLocation;
-    public Location LastLocation;
 
     private const string FileNameExtension = ".dat";
     private const string SaveGameSubdirectoryName = "SaveGames";
@@ -37,13 +33,11 @@ public class GameDataController : MonoBehaviour
         GameData = new GameData();
 	}
 
-    public void StartNewGame(string playerName)
+    public void SetupDataForNewGame(string playerName)
     {
         GameData = new GameData();
 
         _gameDataController.GameData.PlayerGameData.Name = playerName;
-
-        GoToScreen(Screen.Map);
     }
 
     public List<GameData> GetAllSavedGames()
@@ -112,6 +106,73 @@ public class GameDataController : MonoBehaviour
         return true;
     }
 
+    public bool IsSceneSetup()
+    {
+        return GameData.ScreenContextStackGameData.IsSceneSetup();
+    }
+
+    internal void SetBaseScreenAs(ScreenContextGameData screenContextGameData)
+    {
+        GameData.ScreenContextStackGameData.Set(screenContextGameData);
+    }
+
+    internal void SetBaseScreenAs(OutGameScreen newOutGameScreen)
+    {
+        GameData.ScreenContextStackGameData.Set(newOutGameScreen, InGameScreen.None);
+    }
+
+    internal void SetBaseScreenAs(InGameScreen newInGameScreen)
+    {
+        GameData.ScreenContextStackGameData.Set(OutGameScreen.None, newInGameScreen);
+    }
+
+    internal void SetNewScreenAs(OutGameScreen newOutGameScreen)
+    {
+        GameData.ScreenContextStackGameData.Add(newOutGameScreen, InGameScreen.None);
+    }
+
+    internal void SetNewScreenAs(InGameScreen newInGameScreen)
+    {
+        GameData.ScreenContextStackGameData.Add(OutGameScreen.None, newInGameScreen);
+    }
+
+    internal OutGameScreen GetCurrentOutGameScreen()
+    {
+        var screenContext = GameData.ScreenContextStackGameData.GetCurrentScreenContext();
+
+        return screenContext.OutGameScreen;
+    }
+
+    internal InGameScreen GetCurrentInGameScreen()
+    {
+        var screenContext = GameData.ScreenContextStackGameData.GetCurrentScreenContext();
+
+        return screenContext.InGameScreen;
+    }
+
+    internal string GetCurrentSceneName()
+    {
+        var screenContext = GameData.ScreenContextStackGameData.GetCurrentScreenContext();
+
+        return screenContext.GetCurrentSceneName();
+    }
+
+    internal string GetLoadableSceneName()
+    {
+        var screenContext = GameData.ScreenContextStackGameData.GetCurrentScreenContext();
+
+        return screenContext.GetLoadableSceneName();
+    }
+
+    internal bool HasPreviousScreen()
+    {
+        return GameData.ScreenContextStackGameData.HasPreviousScreen();
+    }
+
+    internal void SetScreenAsPrevious()
+    {
+        GameData.ScreenContextStackGameData.RemoveLast();
+    }
 
     private bool Save(bool needsNewSaveFile, string selectedSaveGamePath)
     {
@@ -223,47 +284,5 @@ public class GameDataController : MonoBehaviour
         }
 
         return null;
-    }
-
-    public void GoToScreen(Screen newScreen, Location newLocation = Location.None)
-    {
-        RememberScreenAndLocation(newScreen, newLocation);
-
-        try
-        {
-            SceneManager.LoadScene(newScreen.GetSceneName());
-        }
-        catch (Exception e)
-        {
-            throw new Exception("Failed to GoToScreen on " + newScreen, e);
-        }
-    }
-
-    private void RememberScreenAndLocation(Screen newScreen, Location newLocation)
-    {
-        LastScreen = CurrentScreen;
-        LastLocation = CurrentLocation;
-
-        CurrentScreen = newScreen;
-        CurrentLocation = newLocation;
-
-        if (newScreen.CanBeLoadedTo())
-        {
-            GameData.LastLoadableScreen = GameData.CurrentLoadableScreen;
-            GameData.LastLoadableLocation = GameData.CurrentLoadableLocation;
-
-            GameData.CurrentLoadableScreen = newScreen;
-            GameData.CurrentLoadableLocation = newLocation;
-        }
-    }
-
-    public void GoToPreviousScreen()
-    {
-        GoToScreen(LastScreen, LastLocation);
-    }
-
-    public void GoToCurrentLoadableScreen()
-    {
-        GoToScreen(GameData.CurrentLoadableScreen, GameData.CurrentLoadableLocation);
     }
 }

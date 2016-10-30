@@ -7,12 +7,12 @@ public class TitleController : ScreenController
 {
 	public void OpenNewGameScreen()
     {
-        _gameDataController.GoToScreen(Screen.NewGame);
+        _gameController.GoToNewScreen(OutGameScreen.NewGame);
     }
 
     public void OpenLoadGameScreen()
     {
-        _gameDataController.GoToScreen(Screen.Load);
+        _gameController.GoToNewScreen(OutGameScreen.Load);
     }
 
     public void ExitGame()

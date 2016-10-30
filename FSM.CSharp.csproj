@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.5f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -65,11 +67,18 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Enums\Class.cs" />
     <Compile Include="Assets\Scripts\Enums\DialogResult.cs" />
+    <Compile Include="Assets\Scripts\Enums\GameInteraction.cs" />
+    <Compile Include="Assets\Scripts\Enums\GameLocation.cs" />
+    <Compile Include="Assets\Scripts\Enums\InGameScreen.cs" />
     <Compile Include="Assets\Scripts\Enums\Location.cs" />
+    <Compile Include="Assets\Scripts\Enums\OutGameScreen.cs" />
     <Compile Include="Assets\Scripts\Enums\Screen.cs" />
     <Compile Include="Assets\Scripts\Enums\Sex.cs" />
+    <Compile Include="Assets\Scripts\GameData\GameController.cs" />
     <Compile Include="Assets\Scripts\GameData\GameData.cs" />
     <Compile Include="Assets\Scripts\GameData\GameDataController.cs" />
+    <Compile Include="Assets\Scripts\GameData\ScreenContextStackGameData.cs" />
+    <Compile Include="Assets\Scripts\GameData\ScreenContextGameData.cs" />
     <Compile Include="Assets\Scripts\GameData\PlayerGameData.cs" />
     <Compile Include="Assets\Scripts\GameData\PlayerStatsGameData.cs" />
     <Compile Include="Assets\Scripts\GameData\WorldGameData.cs" />

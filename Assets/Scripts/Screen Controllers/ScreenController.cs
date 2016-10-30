@@ -4,9 +4,8 @@ using System.Collections;
 
 public abstract class ScreenController : MonoBehaviour {
 
-    internal GameDataController _gameDataController;
-    public Screen Screen;
-    public Location Location;
+    internal GameController _gameController;
+    public ScreenContextGameData ScreenContextGameData;
 
     void Awake()
     {
@@ -19,14 +18,13 @@ public abstract class ScreenController : MonoBehaviour {
 
     void GetGameDataController()
     {
-        if (_gameDataController == null)
+        if (_gameController == null)
         {
-            _gameDataController = GameObject.Find("GameDataController").GetComponent<GameDataController>();
+            _gameController = GameObject.Find("GameController").GetComponent<GameController>();
 
-            if (_gameDataController.CurrentScreen == Screen.None)
+            if (!_gameController.IsSceneSetup())
             {
-                _gameDataController.CurrentScreen = Screen;
-                _gameDataController.CurrentLocation = Location;
+                _gameController.SetupBaseScreen(ScreenContextGameData);
             }
         }
     }

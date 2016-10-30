@@ -17,16 +17,19 @@ public class NewGameController : ScreenController
 
         if (string.IsNullOrEmpty(enteredPlayerName))
         {
-            Debug.Log("Name is blank.");
+            gameObject.AddComponent<DialogBoxController>();
+            var dialogBoxController = new DialogBoxController();
+            //var dialogBoxController = CreateInstance("DialogBoxController") as DialogBoxController;
+            dialogBoxController.DisplayMessage("No Value Entered", "The input cannot be blank.");
 
             return;
         }
 
-        _gameDataController.StartNewGame(enteredPlayerName);
+        _gameController.StartNewGame(enteredPlayerName);
     }
 
     public void ReturnToTitleScreen()
     {
-        _gameDataController.GoToScreen(Screen.Title);
+        _gameController.GoToBaseScreen(OutGameScreen.Title);
     }
 }

@@ -13,12 +13,13 @@ public class GameData : IComparable<GameData>
     public bool IsHardcoreModeEnabled;
 
     // Screen Data
-    public Screen CurrentLoadableScreen;
+    /*public Screen CurrentLoadableScreen;
     public Screen LastLoadableScreen;
     public Location CurrentLoadableLocation;
-    public Location LastLoadableLocation;
+    public Location LastLoadableLocation;*/
 
     // Other
+    public ScreenContextStackGameData ScreenContextStackGameData;
     public PlayerGameData PlayerGameData;
     public WorldGameData WorldGameData;
 
@@ -38,11 +39,7 @@ public class GameData : IComparable<GameData>
 
         IsHardcoreModeEnabled = otherGameData.IsHardcoreModeEnabled;
 
-        CurrentLoadableScreen = otherGameData.CurrentLoadableScreen;
-        LastLoadableScreen = otherGameData.LastLoadableScreen;
-        CurrentLoadableLocation = otherGameData.CurrentLoadableLocation;
-        LastLoadableLocation = otherGameData.LastLoadableLocation;
-
+        ScreenContextStackGameData.CopyFrom(otherGameData.ScreenContextStackGameData);
         PlayerGameData.CopyFrom(otherGameData.PlayerGameData);
         WorldGameData.CopyFrom(otherGameData.WorldGameData);
     }

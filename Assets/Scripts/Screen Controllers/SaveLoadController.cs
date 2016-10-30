@@ -14,7 +14,7 @@ public class SaveLoadController : ScreenController
 
     internal override void OnScreenAwake()
     {
-        Screen = _gameDataController.CurrentScreen;
+        //Screen = ; ..CurrentScreen;
 
         SetupController();
 
@@ -25,7 +25,6 @@ public class SaveLoadController : ScreenController
 
     private void SetupController()
     {
-        Debug.Log("SaveLoadController.SetupController()");
         if (IsSaveGameScreen())
         {
             _saveOrLoadController = ScriptableObject.CreateInstance<SaveController>();
@@ -35,19 +34,21 @@ public class SaveLoadController : ScreenController
             _saveOrLoadController = ScriptableObject.CreateInstance<LoadController>();
         }
 
-        _saveOrLoadController.GameDataController = _gameDataController;
+        _saveOrLoadController.GameController = _gameController;
         _saveOrLoadController.GameListContent = GameListContent;
         _saveOrLoadController.GameListItem = GameListItem;
     }
 
     private bool IsSaveGameScreen()
     {
-        if (Screen == Screen.Save)
+        var gameScreen = _gameController.GameDataController.GetCurrentOutGameScreen();
+
+        if (gameScreen == OutGameScreen.Save)
         {
             return true;
         }
 
-        if (Screen == Screen.Load)
+        if (gameScreen == OutGameScreen.Load)
         {
             return false;
         }
@@ -74,6 +75,6 @@ public class SaveLoadController : ScreenController
 
     public void ReturnToPriorScreen()
     {
-        _gameDataController.GoToPreviousScreen();
+        _gameController.GoToPreviousScreen();
     }
 }

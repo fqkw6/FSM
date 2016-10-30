@@ -9,21 +9,21 @@ public class MapController : ScreenController
 
     internal override void OnScreenAwake()
     {
-        CharacterNameText.text = _gameDataController.GameData.PlayerGameData.Name;
+        CharacterNameText.text = _gameController.GameDataController.GameData.PlayerGameData.Name;
     }
 
     public void OpenSlaveHouseScreen()
     {
-        _gameDataController.GoToScreen(Screen.InsideLocation, Location.SlaveHouse);
+        _gameController.GoToNewScreen(InGameScreen.SlaveHouseEntrance);
     }
 
     public void OpenInnScreen()
     {
-        _gameDataController.GoToScreen(Screen.InsideLocation, Location.Inn);
+        _gameController.GoToNewScreen(InGameScreen.InnEntrance);
     }
 
     public void OpenMenuScreen()
     {
-        _gameDataController.GoToScreen(Screen.Menu);
+        _gameController.GoToNewScreen(OutGameScreen.Menu);
     }
 }

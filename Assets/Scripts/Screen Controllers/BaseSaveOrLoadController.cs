@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class BaseSaveOrLoadController : ScriptableObject
 {
-    public GameDataController GameDataController { get; set; }
+    public GameController GameController { get; set; }
     public Transform GameListContent { get; set; }
     public GameObject GameListItem { get; set; }
     public Dictionary<GameObject, GameData> GameDictionary { get; set; }
@@ -81,7 +81,7 @@ public class BaseSaveOrLoadController : ScriptableObject
 
         var selectedGameData = GameDictionary[saveGameListItem];
 
-        GameDataController.TryToDelete(selectedGameData);
+        GameController.TryToDelete(selectedGameData);
 
         RefreshSaveGameList();
     }

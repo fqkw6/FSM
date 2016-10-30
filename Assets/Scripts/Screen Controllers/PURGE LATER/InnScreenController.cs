@@ -11,6 +11,6 @@ public class InnScreenController : ScreenController
 
     public void ReturnToMapScreen()
     {
-        _gameDataController.GoToScreen(Screen.Map);
+        _gameController.GoToPreviousScreen();
     }
 }

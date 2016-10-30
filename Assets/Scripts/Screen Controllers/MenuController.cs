@@ -6,27 +6,27 @@ public class MenuController : ScreenController
 {
 	public void OpenLoadScreen()
     {
-        _gameDataController.GoToScreen(Screen.Load);
+        _gameController.GoToNewScreen(OutGameScreen.Load);
     }
 
     public void OpenSaveScreen()
     {
-        _gameDataController.GoToScreen(Screen.Save);
+        _gameController.GoToNewScreen(OutGameScreen.Save);
     }
 
     public void OpenOptionsScreen()
     {
-        _gameDataController.GoToScreen(Screen.Options);
+        _gameController.GoToNewScreen(OutGameScreen.Options);
     }
 
     public void ExitToTitleScreen()
     {
-        _gameDataController.GoToScreen(Screen.Title);
+        _gameController.GoToBaseScreen(OutGameScreen.Title);
     }
 
     public void ReturnToGameScreen()
     {
-        _gameDataController.GoToCurrentLoadableScreen();
+        _gameController.GoToPreviousScreen();
     }
 
     internal override void OnScreenAwake()

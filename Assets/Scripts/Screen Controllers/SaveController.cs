@@ -59,7 +59,7 @@ public class SaveController : BaseSaveOrLoadController
 
         var selectedGameData = GameDictionary[saveGameListItem];
 
-        GameDataController.TryToSave(saveGameNameFromUser, selectedGameData);
+        GameController.TryToSave(saveGameNameFromUser, selectedGameData);
 
         RefreshSaveGameList();
     }
@@ -68,7 +68,7 @@ public class SaveController : BaseSaveOrLoadController
     {
         GameDictionary = new Dictionary<GameObject, GameData>();
 
-        var gameDataList = GameDataController.GetAllSavedGames();
+        var gameDataList = GameController.GetAllSavedGames();
 
         var newGameData = new GameData();
         var newSaveGameItem = CreateGameItem(NewGameName, null);

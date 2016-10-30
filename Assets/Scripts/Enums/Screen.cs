@@ -4,16 +4,16 @@ using System;
 
 public enum Screen
 {
-    None,
-    SetInCodeLater,
-    Title,
-    NewGame,
-    Save,
-    Load,
-    Menu,
-    Options,
-    Map,
-    InsideLocation,
+    None = 0,
+    SetInCodeLater = 1,
+    Title = 2,
+    NewGame = 3,
+    Save = 4,
+    Load = 5,
+    Menu = 6,
+    Options = 7,
+    Map = 8,
+    InsideLocation = 9
 }
 
 public static class ScreenExtensions

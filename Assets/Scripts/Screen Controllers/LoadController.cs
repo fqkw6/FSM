@@ -29,21 +29,19 @@ public class LoadController : BaseSaveOrLoadController
 
         var selectedGameData = GameDictionary[saveGameListItem];
 
-        if (!GameDataController.TryToLoad(selectedGameData))
+        if (!GameController.TryToLoad(selectedGameData))
         {
             return;
         }
 
-        var sceneToLoad = GameDataController.GameData.CurrentLoadableScreen.GetSceneName();
-
-        SceneManager.LoadScene(sceneToLoad);
+        GameController.GoToCurrentLoadableScreen();
     }
 
     protected override void PopulateGameList()
     {
         GameDictionary = new Dictionary<GameObject, GameData>();
 
-        var gameDataList = GameDataController.GetAllSavedGames();
+        var gameDataList = GameController.GetAllSavedGames();
 
         foreach (var gameData in gameDataList)
         {
