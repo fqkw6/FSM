@@ -14,6 +14,11 @@ public class ScreenContextGameData
         InGameScreen = inGameScreen;
     }
 
+    public bool IsLoadable()
+    {
+        return InGameScreen != InGameScreen.None;
+    }
+
     public string GetCurrentSceneName()
     {
         if (HasOutGameScreen())

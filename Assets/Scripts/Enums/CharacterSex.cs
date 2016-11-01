@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public enum Sex
+public enum CharacterSex
 {
     Female,
     Male
@@ -10,16 +10,16 @@ public enum Sex
 
 public static class SexExtensions
 {
-    public static string ToFriendlyString(this Sex sex)
+    public static string ToFriendlyString(this CharacterSex sex)
     {
         switch (sex)
         {
-            case Sex.Female:
+            case CharacterSex.Female:
                 return "Female";
-            case Sex.Male:
+            case CharacterSex.Male:
                 return "Male";
             default:
-                throw new Exception("Sex not setup for ToFriendlyString");
+                throw new Exception("CharacterSex not setup for ToFriendlyString");
         }
     }
 }

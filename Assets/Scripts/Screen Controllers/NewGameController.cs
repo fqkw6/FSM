@@ -17,10 +17,9 @@ public class NewGameController : ScreenController
 
         if (string.IsNullOrEmpty(enteredPlayerName))
         {
-            gameObject.AddComponent<DialogBoxController>();
-            var dialogBoxController = new DialogBoxController();
-            //var dialogBoxController = CreateInstance("DialogBoxController") as DialogBoxController;
-            dialogBoxController.DisplayMessage("No Value Entered", "The input cannot be blank.");
+            var dialogBoxController = ScriptableObject.CreateInstance("DialogBoxController") as DialogBoxController;
+
+            dialogBoxController.DisplayMessage("Name is Blank", "Your character name cannot be blank.");
 
             return;
         }

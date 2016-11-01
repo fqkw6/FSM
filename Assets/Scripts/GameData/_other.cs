@@ -6,8 +6,8 @@ using System;
 public class Character
 {
     public string Name;
-    public Sex Sex;
-    public Class Class;
+    public CharacterSex Sex;
+    public CharacterClass Class;
     public Stats Stats;
 }
 

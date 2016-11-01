@@ -8,6 +8,15 @@ public class ScreenContextStackGameData
 
     // If has OutGameScreen, show that, since it kinda layers on top. Once that is closed, switch back to the InGameScreen.
 
+    public ScreenContextStackGameData()
+    {
+        ScreenContextGameDataList = new List<ScreenContextGameData>();
+
+        var defaultContext = new ScreenContextGameData(OutGameScreen.Title, InGameScreen.None);
+
+        Add(defaultContext);
+    }
+
     public void Add(ScreenContextGameData screenContextGameData)
     {
         ScreenContextGameDataList.Add(screenContextGameData);
@@ -60,6 +69,21 @@ public class ScreenContextStackGameData
         }
 
         return ScreenContextGameDataList[lastScreenIndex];
+    }
+
+    public ScreenContextGameData GetLoadableScreenContext()
+    {
+        for (var i = ScreenContextGameDataList.Count - 1; i >= 0; i--)
+        {
+            var screenContextGameData = ScreenContextGameDataList[i];
+
+            if (screenContextGameData.IsLoadable())
+            {
+                return screenContextGameData;
+            }
+        }
+
+        throw new Exception("GetLoadableScreenContext failed because no screen context in the list was loadable.");
     }
 
     public void CopyFrom(ScreenContextStackGameData otherScreenContextStackGameData)

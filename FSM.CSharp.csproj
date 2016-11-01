@@ -65,15 +65,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Enums\Class.cs" />
+    <Compile Include="Assets\Scripts\Enums\CharacterClass.cs" />
     <Compile Include="Assets\Scripts\Enums\DialogResult.cs" />
-    <Compile Include="Assets\Scripts\Enums\GameInteraction.cs" />
-    <Compile Include="Assets\Scripts\Enums\GameLocation.cs" />
     <Compile Include="Assets\Scripts\Enums\InGameScreen.cs" />
-    <Compile Include="Assets\Scripts\Enums\Location.cs" />
     <Compile Include="Assets\Scripts\Enums\OutGameScreen.cs" />
-    <Compile Include="Assets\Scripts\Enums\Screen.cs" />
-    <Compile Include="Assets\Scripts\Enums\Sex.cs" />
+    <Compile Include="Assets\Scripts\Enums\CharacterSex.cs" />
     <Compile Include="Assets\Scripts\GameData\GameController.cs" />
     <Compile Include="Assets\Scripts\GameData\GameData.cs" />
     <Compile Include="Assets\Scripts\GameData\GameDataController.cs" />

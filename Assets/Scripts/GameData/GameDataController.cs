@@ -6,10 +6,8 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.SceneManagement;
 
-public class GameDataController : MonoBehaviour
+public class GameDataController
 {
-    private static GameDataController _gameDataController;
-
     public GameData GameData;
 
     private const string FileNameExtension = ".dat";
@@ -20,24 +18,11 @@ public class GameDataController : MonoBehaviour
         GameData = new GameData();
     }
 
-	void Awake ()
-    {
-	    if (_gameDataController != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        
-        _gameDataController = this;
-        DontDestroyOnLoad(gameObject);
-        GameData = new GameData();
-	}
-
     public void SetupDataForNewGame(string playerName)
     {
         GameData = new GameData();
 
-        _gameDataController.GameData.PlayerGameData.Name = playerName;
+        GameData.PlayerGameData.Name = playerName;
     }
 
     public List<GameData> GetAllSavedGames()
@@ -70,9 +55,9 @@ public class GameDataController : MonoBehaviour
     public bool TryToSave(string saveGameNameFromUser, GameData selectedGameData)
     {
         // keep track of old name so that you can delete it after the current game has been saved
-        var oldSaveGameFilePath = _gameDataController.GameData.SaveGameFilePath;
-        var oldSaveGameName = _gameDataController.GameData.SaveGameName;
-        var oldSaveGameLastSaveDate = _gameDataController.GameData.LastSaveDate;
+        var oldSaveGameFilePath = GameData.SaveGameFilePath;
+        var oldSaveGameName = GameData.SaveGameName;
+        var oldSaveGameLastSaveDate = GameData.LastSaveDate;
 
         var isNewGame = selectedGameData.HasNeverBeenSaved();
         var isSavingUnderNewName = (saveGameNameFromUser != selectedGameData.SaveGameName);
@@ -80,16 +65,16 @@ public class GameDataController : MonoBehaviour
 
         Debug.Log(string.Format("isNewGame = {0}, isSavingUnderNewName = {1}, needsNewSaveFile = {2}", isNewGame, isSavingUnderNewName, needsNewSaveFile));
 
-        _gameDataController.GameData.SaveGameName = saveGameNameFromUser;
-        _gameDataController.GameData.LastSaveDate = DateTime.Now;
+        GameData.SaveGameName = saveGameNameFromUser;
+        GameData.LastSaveDate = DateTime.Now;
 
         if (!Save(needsNewSaveFile, selectedGameData.SaveGameFilePath))
         {
             Debug.Log("saving failed");
 
-            _gameDataController.GameData.SaveGameFilePath = oldSaveGameFilePath;
-            _gameDataController.GameData.SaveGameName = oldSaveGameName;
-            _gameDataController.GameData.LastSaveDate = oldSaveGameLastSaveDate;
+            GameData.SaveGameFilePath = oldSaveGameFilePath;
+            GameData.SaveGameName = oldSaveGameName;
+            GameData.LastSaveDate = oldSaveGameLastSaveDate;
 
             return false;
         }
@@ -159,7 +144,7 @@ public class GameDataController : MonoBehaviour
 
     internal string GetLoadableSceneName()
     {
-        var screenContext = GameData.ScreenContextStackGameData.GetCurrentScreenContext();
+        var screenContext = GameData.ScreenContextStackGameData.GetLoadableScreenContext();
 
         return screenContext.GetLoadableSceneName();
     }
@@ -182,12 +167,12 @@ public class GameDataController : MonoBehaviour
         {
             filePath = GetNewFilePath();
 
-            _gameDataController.GameData.SaveGameFilePath = filePath;
+            GameData.SaveGameFilePath = filePath;
         }
         else
         {
-            _gameDataController.GameData.SaveGameFilePath = selectedSaveGamePath;
-            filePath = _gameDataController.GameData.SaveGameFilePath;
+            GameData.SaveGameFilePath = selectedSaveGamePath;
+            filePath = GameData.SaveGameFilePath;
         }
 
         Debug.Log("save file path = " + filePath);
@@ -197,7 +182,7 @@ public class GameDataController : MonoBehaviour
             using (var fileStream = File.Create(filePath))
             {
                 var binaryFormatter = new BinaryFormatter();
-                binaryFormatter.Serialize(fileStream, _gameDataController.GameData);
+                binaryFormatter.Serialize(fileStream, GameData);
             }
         }
         catch (Exception e)
@@ -214,7 +199,7 @@ public class GameDataController : MonoBehaviour
     {
         if (firstNameAttempt == null)
         {
-            firstNameAttempt = _gameDataController.GameData.SaveGameName;
+            firstNameAttempt = GameData.SaveGameName;
 
             foreach (var c in Path.GetInvalidFileNameChars())
             {
@@ -262,7 +247,7 @@ public class GameDataController : MonoBehaviour
 
     public bool TryToLoad(GameData gameData)
     {
-        _gameDataController.GameData = gameData;
+        GameData = gameData;
 
         return true;
     }

@@ -12,12 +12,6 @@ public class GameData : IComparable<GameData>
     // Game Options
     public bool IsHardcoreModeEnabled;
 
-    // Screen Data
-    /*public Screen CurrentLoadableScreen;
-    public Screen LastLoadableScreen;
-    public Location CurrentLoadableLocation;
-    public Location LastLoadableLocation;*/
-
     // Other
     public ScreenContextStackGameData ScreenContextStackGameData;
     public PlayerGameData PlayerGameData;
@@ -25,6 +19,7 @@ public class GameData : IComparable<GameData>
 
     public GameData()
     {
+        ScreenContextStackGameData = new ScreenContextStackGameData();
         PlayerGameData = new PlayerGameData();
         WorldGameData = new WorldGameData();
     }

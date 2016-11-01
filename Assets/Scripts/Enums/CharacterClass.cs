@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public enum Class
+public enum CharacterClass
 {
     Client,
     Guard,
@@ -11,18 +11,18 @@ public enum Class
 
 public static class ClassExtensions
 {
-    public static string ToFriendlyString(this Class theClass)
+    public static string ToFriendlyString(this CharacterClass theClass)
     {
         switch (theClass)
         {
-            case Class.Client:
+            case CharacterClass.Client:
                 return "Client";
-            case Class.Guard:
+            case CharacterClass.Guard:
                 return "Guard";
-            case Class.Slave:
+            case CharacterClass.Slave:
                 return "Slave";
             default:
-                throw new Exception("Class not setup for ToFriendlyString");
+                throw new Exception("CharacterClass not setup for ToFriendlyString");
         }
     }
 }
